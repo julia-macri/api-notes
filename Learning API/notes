@@ -1,0 +1,557 @@
+API: Application Programming Interface
+
+DEFINING INTERFACE
+    metaphor: radio
+    don't need to know how it works inside
+    allows you to control way it works through options exposed (control of features)
+    "magic" abstracted away and still in control what user can handle
+    usually evolves over time
+        e.x. alarm clock radio- more customized? (familiar volume but can change time/alarms) 
+    GUI (Graphical User Interface) (physical interface?)
+        e.x. familiar play button in user interface (UI) on music app- know what does but don't know HOW it does it
+            depends on this abstraction
+            developer who created it understands how button works 
+                also deals with interfaces abstracting away some details
+                wrote code using event handler OnClick- didn't write code that makes button interact/change with press (already there)
+            buttons = interface (provide developer means of controllign its interactions while abstracting away implementation)
+                - part of API
+            probably uses Media Player API provided by OS (android/iphone) (abstracts away needing to understand sending audio to hardware- just call play method)
+    
+     all define ways for us to interact/communicate with object (physical or software)
+     abstraction of implementation (user don't need to understand implementation/how it works) 
+
+     User Interface- made for user of Application
+
+     API- made for application programmer to use/extend in applications
+
+DEFINING API
+    contract
+    defines how expected to be used/expect to receive while using it
+    set of tools designed for software developers
+    gives you access to data
+    abstraction of implementation
+    
+    almost always used to describe web-based API
+    
+    API everywhere
+    programming language provides many APIs 
+        for example string API (e.x. function to make entire string uppercase- abstracted away)
+        programming language specifications = just interfaces -> diff OSs can supply own implementations so code works properly in own environment
+    e.x. listing files/descriptions look diff but happens in Mac vs Windows 
+
+    diff web browsers
+        can write code for web and works for any of them
+        works bc set of web APIs that all web browsers have to implement
+
+    authors/maintainers of libraries that package up code and solve common problems so don't have to do it yourself
+        e.x. image package - call method to make picture black and white
+
+    frameworks provide API that allow you to extend what's provided to make your own
+        e.x. most web frameworks provide you with ability to add new route to web application
+            allows you to write out dynamic data to template that you specify
+        don't need to understand how doing things but need to know how to write an implementation to what framework expecting
+        using API (contract) to write valid implementation that meets requirements
+
+    all APIs discussed here (?) are local to code base (exist within our code) (use to avoid in recreating wheel)
+    assist in accomplishing tasks that need to perform by abstracting away a lot of work (that don't need to )
+    need to figure out how to levarage these APIs to your advantage
+
+REMOTE APIs
+    remote = interface (e.x. volume button sends request to device - as if change volume using interface on device- want to remotely control device)
+    
+    ex robot- send commands to it, can even send back sensory information
+    e.x. road signs- can change based on API call
+    ex. drone- remote-controlled by phone
+
+    not just physical objects
+    don't have space on local machine for all data available
+        e.x. figuring out song playing
+            don't have room for all songs on phone
+            with remote API does all searching/processing 
+
+    benefit: computational power
+        because removes limitations of local machine
+        can gain access to seemingly infite amount of power
+        e.x. Google Translate (AR- camera)- almost instantaneously 
+            processing happening elsewhere (lots of processing power)
+        
+    REST (Representational State Transfer)
+        clear architectural style - allowed us to interact with specific resources over the web
+        nearly completely overtook word API (like Xerox/papercopier)
+        APIs embrace style of REST APIs = RESTful
+        rest of course = REST
+
+    GraphQL
+
+HOW WEB WORKS
+    internet browswer = web client
+        use to connect to a server- by putting lcoation in address bar  = a Universal Resource Locator (URL) or Universal Resource Identifier (URI)
+    
+    URL has a scheme portion
+        can be http = HyperText Transfer Protocol
+            protocol = often like contract (a little lower level than API- similar in concept)
+                define expectations on how to communicate
+                e.x. rally chant (I say "food" you say "bar")
+                    set up protocol
+                    told us how to respond to my specific request
+                    breaking agreed-upon protocol if didn't respond with "bar"
+    browser creates HTTP request for you 
+    along with URI- specifies particular HTTP verb
+        GET: request will only receive data (won't be making any changes)
+            in this case, for putting location in address bar
+    server receives request that was transferred from client (second T)
+    server does work needs to do 
+    server generates resulting webpage - sends back response for client (browser in this case)
+    most important part of response = body
+        for webpage, contains HTML (Hyper Text Markup Language)
+            (rest of acronym)
+        hyper text = text that can link to other text
+            in HTML, perform linking with anchor 
+    with that response, browser renders page
+    (process repeats itself, brand new HTTP response when another link clicked)
+        HTTP = stateless protocol
+        in between clicks, process done (made request and got response- once request gets response)
+        (if want to keep some sort of state- client has to manage itself- set it up with each new request)
+    
+    HTTP verbs = request methods (more other than GET)
+        most common-form used to take info from you 
+        often verb POST: explain that you're submitting or posting to server
+    
+    important info in request/response
+    
+    query string parameters- after ? in URL
+        one way to pass information about request
+    another common way to pass this information - through specific key/value pairs
+        both requests/responses have headers
+        used further communicate what is wanted/what has been sent back
+        popular request headers allow you to specify information about content expect back
+            e.x. language (Content-Language), type of content (Content-Type)
+        can also state only want page if has changed since certain time 
+            allows for caching (powerful bc why get whole page if in local cache)
+        
+        
+        embed authentication information in each request using header
+            keeping client logged in across requests
+        response also contains header
+            important one = status code
+                lets you know what happened on the server side
+                can convey things like missing documents (404, 200 OK)
+                can also explain content type, how large data return is, etc.
+
+    REST sits on top of it
+        uses these concepts to expose resources that can be accessed and manipulated
+
+RESTful API Constraint Scavenger Hunt
+    REST = Representational State Transfer
+    APIS that meet REST architectural/style constraints = RESTful
+
+    Constraints (to be considered RESTful)
+        - Client-Server Architecture
+        - Statelessness
+        - Layered System
+        - Cacheability
+        - Uniform Design 
+        - Code on Demand
+
+    how REST APIs sit on top of web technology
+        (CLIENT-SERVER ARCHITECTURE)
+        client makes request to server
+        client typically your program
+            typically use library to create request to server
+        protocol used = HTTP 
+            (STATELESSNESS)
+            stateless = server won't remember anything about particular client
+            if want to maintain state, have to send with each and every request- do with headers 
+
+    request requesting information about a resource
+        resource = abstract
+            R in URL
+            use it to reference an object 
+            resources describe anything that we build
+        e.x. ebook store website- homepage has list or collection of new books
+            each book = resource
+            when click into book resource, link to author (resource)
+            when click into author resource, see collection of other books written or group of fans (each fan = resource)
+            etc. (everything is a resource)
+        e.x. image sharing application on phone
+            user resources
+            users post photos (photo resource)
+            photos can be loved (lover resource)
+            album can be created (album resource that contains photo resources)
+            albums have a collection of contributor resources
+        almost everything want to build can be expressed in terms of resource/resource collection
+        most of what want application to do with resources = CRUD
+            Creating, Reading, Updating, and Deleting
+            reading
+                getting information to display
+                e.x. ebook site
+                    retrieved author page
+                    made read request for author page
+                    web browswer used GET request for that author page
+                RESTful API (same logic)
+                    1. program sends GET request to URI
+                    2. server responsds with data/all HTTP headers
+                        body represented in JSON structure (Javascript Object Notation)
+                            great way to structure/nest data
+                            every programming language provides some means of turning a JSON string into native object
+                        content type = something you can request (if JSON isn't your thing)
+        
+        HTTP verbs: used in REST APIs to clearly state the intention of your request
+            GET (Read)
+            POST (Create)
+                e.x. add authors
+                    POST to /authors and send data that want to update in body of request
+                        (fields defined for you somewhere)
+                    /authors
+                    {name: "Dave Eggers"}
+            PUT (Update)
+            PATCH (Update)
+                updates typically support PATCH verb
+            DELETE (Delete)
+                e.x. remove author- send DELETE to that specific author (/authors/HBWSG123)
+            
+            can interact with any application that's exposed to REST API
+                e.x. grab data, remotely automate tasks, smush services together (mashup)
+                (tons of APIs available- if RESTful, feel the same)
+
+
+EXPLORING AN API ONLINE - e.x. Spotify
+    audio analysis
+    audio playback- can embed player into application
+        SDK = software development kit
+            gives API that wraps around other APIs (feel native to your programming language)
+    recommendations
+        Javacript doing GET to one of their endpoints
+    discover- give ideas of what can do
+        (see how other people used it)
+        playback- can get player 
+            (can see example apps that use it)
+            (blue = IOS- Mac-based)
+            (pink = android-based)
+            (red square = widgets- probably HTML widgets saw)
+            all need to do is connect to it over HTTP
+                (so any of these devices can connect to it)
+        music recommendations
+        search- look at documentation
+            explain contract of what need to do to use API
+            request
+            acc to video: header required in request for authorization (auth = means knows what user allowed to do)
+                (many APIs use concept of access token)
+            query parameter
+                requires this "q": search query (keywords)
+                    e.x. "remaster%20track:Doxy+artist:Miles%20Davis"
+                    video ex.: "q=roadhouse%20blues 
+                    (needs to be URL-encoded?)
+                type required
+                    like album, artist, playlist (type of resource available in Spotify's API)
+                (more optional query parameters to specify search)
+        response (what comes back)
+            header
+            status code
+                200 OK if good/success
+            body: contains array (list) of artist objects, album, etc. (whatever type looking for)
+                in JSON notation
+
+            if error, has error code/body has error message
+        notes (thorough)
+            encode spaces (%20): ensures can't use space or else breaks URL
+            etc.
+            
+        web console
+            GET https://api.spotify.com/v1/search (SEARCH)
+                GET to this URL
+            code that will actually run (as change fields, updates- e.x. if change "q")
+                curl -X "GET" "https://api.spotify.com/v1/search?q=lizzo&type=artist" -H "Accept: application/json" -H "Content-Type: application/json" -H "Authorization: Bearer BQBhMEJhacBhipZ0kKcTQwwc4aQppKsuv32WN_f2b4ezOyaGhC2L5PEvETXiK2KxUfaBfiAtuegc3Cx9omsbW-Sf_sh5N7aPiU31wDKwjg16ffelCgm22UYyqF6lxYcgQ0xnlygiUHvWDMCF43w"
+            OAuth Token
+                what authorized to do?
+                click "get token"
+                    endpoint requires authentication BUT doesn't require specific scope
+                    when build token, for using these key, these scopes = things people  are able to do
+                        don't need to do anything specific for this
+                if another copies it down, could do things to my account on my behalf
+                    (treat keys as car keys- keep them safe and with you!)
+            could copy command (curl...) and paste into terminal (works!)
+            can do "Try It"- get JSON back
+                "artists": object that has serach that we built (href)
+                    "items": array - bc could be multiple artists named Lizzo
+                        (can look at external images)
+                        (random note: Alexa = Voice User Interface)
+                        has an id
+                        another API call can do ("href" in this item- to get that specific artist (info))
+                            .../artists/theirid
+                        "external links"
+                            not API
+                            actual spotify webpage 
+                
+            Artists API (to get artist's popular songs)
+                "get an artist's top tracks"
+                    GET
+                    endpoint- need that id
+                    market
+                    get response
+                        uri with colon (spotify:artist:id)
+                        preview_url: open and will start playing this song
+                        etc.
+    can build tools that extend platform Spotify
+    why (search) so fast?
+        results don't change all the time
+        results definitely cacheable (CACHEABILITY)
+    example of LAYERED SYSTEM
+        Spotify set up things so returns same JSON from own server-side caching mechanism 
+            not rendered on every request
+        (user of API don't know how doing exactly (don't care- just want to be fast))
+
+USING AN API FROM COMMAND LINE (Twilio- abstract away all kinds of communication channels)
+    (will make request ourselves)
+    (with single command, can send text message)
+    (with this trial phone number- the number is mine/can program it)
+
+    send a text message
+        messaging -> try it out -> send an SMS
+            (old/video: go to menu -> choose Programmable SMS -> Get Started)
+        (explore API- again changes code (e.x. if change body))
+        (note: to send message/have valid Messaging Service SID- go to "Get Set Up" in "Try it out" before)
+
+    copy code (show auth token)
+    open up terminal
+    paste code
+        POST to this url (the one after "curl")
+            (POST bc creating new message)
+            (after ...Accounts/ have account SID (aka string identifier))
+            have .json -> return JSON
+        use form URL encoding (to, from, body)
+            (can change code if want)
+        -u: sets up authentication of account SID:auth token
+        
+        sends POST
+
+    but can also use GET to receive messages that have been sent
+        like sent log
+        change POST to GET
+        delete everything after GET except -u ... (doing GET to this account- all of the messages ever sent from this account)
+        GET -> shows a list (could format/make it prettier)
+    
+    clumsy on terminal -> use Postman instead
+
+USING POSTMAN TO EXPLORE APIS
+    New (near Workspace)
+    choose "Collection"
+        (bc typically use with specific API and create collection to keep requests make grouped together)
+
+    recreate calls made to Twilio API using Curl
+    after edit collection name, in menu click "Add request"
+
+    usually in description include link of documentation (e.x. after googling "twilio message resource doc" -> "list all messages"/"read a list of messages")
+        [Twilio Documentation](https://www.twilio.com/docs/sms/api/message-resource?code-sample=code-read-list-all-messages&code-language=Node.js&code-sdk-version=3.x)
+            makes it a link
+    can make new folder (bc so many diff APIs/may be playing around with diff things)
+
+    go to terminal and copy URL -> put in request URL (GET) -> Sendj
+        error - didn't even pass in authoriztion 
+    
+    go to Authorization tab to add authorization
+        (under type) inherit auth from parent (bc using same account) 
+        open up Twilio collection -> "Edit" -> "Auhtorization" -> "basic Auth"
+            all requests will share this if inherit from parent
+
+            heads up -> use variables (variables tab)
+                create new name and it has value
+                    people can set on own machine these own values (good way to not accidentally send key)
+                initial value = what people see when come in
+                    e.x. "your account SID" (that's what they see)
+                current value (e.x. Account SID)
+            
+            once have variables -> "Authorization" 
+                can use variables
+                Username: {{INITIAL VALUE}}
+                Password: {{CURRENT VALUE}} 
+                (sets authorization for all of the collections to these variables that are local to our machine)
+
+    now "Send" (again)
+        (get array of messages back - should be 2 messages)
+
+PLEASE PLEASE MR.POSTMAN (create POST request)
+    (message resource doc -> Create message resource)
+
+    take URL from previous GET request but don't want our account SID in it bc want anybody who uses this to use it
+        replace with {{INITIAL VALUE}} -> usable for anyone if share it
+        (for prev GET/curr POST -> same URL for both)
+    
+    go to "Body" tab
+        form-urlencoded ("x-www-form-urlencoded)
+        (go to documentation to figure out key/value)
+
+    if go into message log- can now see in "subresource_uris", can see "media" that was sent along (from MediaUrl)
+        if click that link, makes new GET request
+            problem bc this GET request is outside of our collection
+        when click "Send", get list of medias (bc can send multiple)
+        (official) uri- if click on that, have another GET request
+            shows information about media if run
+            if remove .JSON, shows form of whatever media was (get what sent)
+
+            with request of such large size (^^), don't want to make that request again if don't need to
+                -> client side caching
+
+    checking if it supports caching (CACHEABILITY) (using standard HTTP caching (e.x. last-modified, etags) should support): up to you to maintain cache on your client and decorate your request (handy for avoiding unhandy requests)
+        go to Headers (look at below one- where media showed up)
+        good sign if it has "Last-Modified" (copy that value)
+        can add new header (up- where key/value is)
+            key = If-Modified-Since
+                bc if modified since time, show me; otherwise, don't
+            value = copied value from below header from "Last-Modified"
+        (if click Send this time, status = "304 Not Modified")
+        with that, API supports caching
+
+    can generate code snippet (sets up everything need)
+    (scratched surface- notes to where learn more)
+    (saw subresources by clicking URLS, etc.)
+
+    many produts offer SDK (Software Developer Kit) or Helper Library
+        allows you to interact with product in your native language
+        (abstracts RESTful API)
+    
+    (look at notes)
+
+USING HELPER LIBRARIES (JAVASCRIPTS)
+    Postman/curl = great for accessing/exploring APIs
+    in Postman, can generate code
+    every programming language comes with some sort of way of making requests
+        HTTP requests- all need to interact with RESTful APIs
+        if write code, end up writing a lot of "boilerplate code" (aka repetitive code)
+
+    solution = helper libraries (aka SDKs)
+        specific to programming language
+        make code more concise/legible
+        (additional documentation for your editor)
+
+    LOOK AT EXPLORE.JS
+
+USING HELPER LIBRARIES (PYTHON)
+    python uses virtual environments (allow you to install packages local to application)
+        do with "python -m venv .nameofdir"
+            "venv": virtual environment
+            creates directory called ".nameofdir"
+            e.x. "python -m venv .venv"
+
+    "source ./.venv/bin/activate" (source that file)
+        now you're activated (have "(.venv)...")
+            
+    LOOK AT EXPLORE.PY
+
+    key benefit of helper libraries
+        similar but match development workflow/style of each language
+        abstract away way HTTP client connection of REST API boilerplate
+        feels natural
+        handy for automation-based tasks (batch scripting): making bunch of calls at once
+        common to use from within applications that you're building (and CLIs?- look below)
+
+    UNIFORM DESIGN (4 subsections)
+        (e.x. way was able to delete from resource itself?)
+        - Resource identification in requests
+            URIs included (since included- know can get/manipulate specific resources)
+        - Resource manipulation through representations
+            (what just discussed bc enough information included-> clear how to modify/delete resource)
+        - Self-descriptive messages
+        - Hypermedia as the engine of the application state
+    
+    CLI (Command Line Interface): common tool for talking to external APIs
+        can be used to make API calls from executable on your machine
+        showing up more for authentication/diff services
+        popular for cloud providers (setting something up needs to be done quickly from command line)
+        (notes for more)
+
+INTRODUCING THE PROJECT
+    complimenter
+    fill out web form with their mobile number
+    they get text message w compliment and encouragement to do the same
+
+    Glitch: to host our websites
+        website basically functioning minus API (going to add)
+        collaborative community- take existing libraries and remix them
+
+FLASK APP
+    Python-based web application
+    Flask: provides API- lets you extend framework to create application
+    sample application - doing server side rendering (pages only created on server side)
+        any change or navigation will require full page reload
+
+    page with form
+        top section (recent compliments): messages when come in
+        right now, no way to send text messages (no Twilio library installed)
+
+    FILES: https://glitch.com/edit/#!/cactus-violet-harbor
+
+DEALING WITH API LIMITS
+    e.x. limited to verified numbers only (in trial mode)
+    
+    common with any API encounter- designed to have limits
+
+    anyways, if maintainer of web-based API, don't want someone making millions of requests in short period of time
+        API server can't support load
+        solution: throttle
+            limit number of requests you can make per second
+            typically these limits introduced when get API key
+
+            e.x. Twilio console
+                messages sned during trial have that trial text
+                can only send to verified numbers
+
+                if try to not send to verified number, get internal server error
+                    -> go to logs to see what happened (big stack trace)
+                     - says that unverified number - can verify at twilio.com/user/account/phone-numbers/verified to have my trial account text her
+    TRY AGAIN AFTER VERIFY NUMBER - CHECK
+
+    good prototype (good chance to get- until have to pay)
+
+JAVASCRIPT SINGLE PAGE APPLICATION
+    (implement in Javascript)
+    full-stack Javascript application
+
+    server side: uses Node.js/web framework Express
+    front-end: client-side framework Vue
+
+    earlier Python version: all server side
+
+    very simple Single Page Application = SPA
+        once page rendered, client responsible for rendering parts of the page
+        won't rely on full page reload from server to load new pages
+
+    can easily see data sent down from the server by going to Developer Tools -> "Network" -> "compliments" if click reload on webpage (?) (note: may help to go to view -> Developer -> Developer Tools)
+
+    LINK: https://glitch.com/edit/#!/radical-beaded-athlete?path=app.js%3A75%3A0
+
+
+MOAR JAVASCRIPT AND RECAP
+    dealt with displaying list of all compliments -> now, need to deal with how added on Javascript side
+    (front-end code: public/index.html)
+
+    server code (that wrote) prefixed with "/api" (server code that interfaced with client)
+
+    was it RESTful? -> no (ok bc works as is but can quickly make it RESTful) -> can look at notes for description of these
+        client-server architecture
+            client = Vue application (running in browser)
+            server = Node.js server (but any client can connect/use this)
+        stateless: not requiring any prior knowledge about client
+        layered system
+           e.x. API calling another API (but client doesn't need to know that)
+           could also add additional functionality and contract wouldn't change
+        cacheability - maybe
+            providing any caching information BUT could (pay attention to headers and respond appropriately)
+        uniform design (4 subsections) -> no
+            resource identification in requests
+                representing all compliments as strings -> absolutely no way to identify them  -> FAIL
+            resource manipulation through representations
+                no manipulation of compliments -> FAIL
+            self-descriptive messages -> yes
+                by using headers- can tell it is JSON
+                message has type- clear that should be JSON-encoded
+            HATEOAS: hypermedia as the engine of application state
+                there are links provided to show off what more can do with this and where could find related resource
+                provides URIs (links)
+                saw in Twilio/Spotify
+                but our application doesn't need to provide links to other resources
+
+        code on demand (optional requirement) - no (doesn't make sense for our application)
+            means that API returns code that is runnable
+            e.x. returns embeddable widget
+            e.x. returns some Javascript code
